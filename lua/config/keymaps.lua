@@ -1,0 +1,6 @@
+vim.keymap.set("n", ";", ":", { desc = "Entrar en modo comando." })
+vim.keymap.set("n", "\\", ";", { desc = "Repetir busqueda de caracter." })
+vim.keymap.set("n", "<C-Left>", "<C-w>h", { desc = "Desplazarse a la ventana izquierda." })
+vim.keymap.set("n", "<C-Right>", "<C-w>l", { desc = "Desplazarse a la ventana derecha." })
+vim.keymap.set("n", "<C-Up>", "<C-w>j", { desc = "Desplazarse a la ventana de abajo." })
+vim.keymap.set("n", "<C-Down>", "<C-w>k", { desc = "Desplazarse a la ventana de arriba." })
