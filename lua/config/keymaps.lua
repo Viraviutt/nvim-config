@@ -4,3 +4,7 @@ vim.keymap.set("n", "<C-Left>", "<C-w>h", { desc = "Desplazarse a la ventana izq
 vim.keymap.set("n", "<C-Right>", "<C-w>l", { desc = "Desplazarse a la ventana derecha." })
 vim.keymap.set("n", "<C-Up>", "<C-w>j", { desc = "Desplazarse a la ventana de abajo." })
 vim.keymap.set("n", "<C-Down>", "<C-w>k", { desc = "Desplazarse a la ventana de arriba." })
+vim.keymap.set({ "n", "v", "i" }, "<C-s>", "<cmd>write<cr><esc>", { desc = "Guardar archivo." })
+vim.keymap.set("n", "<leader>w", "<cmd>write<cr>", { desc = "Guardar." })
+vim.keymap.set("n", "<leader>q", "<cmd>quit<cr>", { desc = "Cerrar ventana." })
+vim.keymap.set("n", "<Esc>", "<cmd>nohlsearch<cr>", { desc = "Limpiar búsqueda." })
