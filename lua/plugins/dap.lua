@@ -59,6 +59,15 @@ return {
 				args = { "--interpreter=vscode" },
 			}
 
+			dap.adapters.codelldb = {
+				type = "server",
+				port = "13005",
+				executable = {
+					command = vim.fn.stdpath("data") .. "/mason/bin/codelldb",
+					args = { "--port", "13005" },
+				},
+			}
+
 			dap.configurations.cs = {
 				{
 					type = "coreclr",
@@ -69,6 +78,42 @@ return {
 					end,
 				},
 			}
+
+			dap.configurations.rust = {
+				{
+					type = "codelldb",
+					name = "Lanzar binario",
+					request = "launch()",
+					program = function()
+						return vim.fn.input("Ruta al ejecutable: ", vim.fn.getcwd() .. "/target/debug/", "file")
+					end,
+					cwd = "${workspaceFolder}",
+					stopOnEntry = false,
+				},
+			}
+
+			for _, lang in ipairs({ "c", "cpp" }) do
+				dap.configurations[lang] = {
+					{
+						type = "codelldb",
+						name = "Lanzar binario",
+						request = "launch",
+						program = function()
+							return vim.fn.input("Ruta al ejecutable: ", vim.fn.getcwd() .. "/", "file")
+						end,
+						cwd = "${workspaceFolder}",
+						stopOnEntry = false,
+					},
+					{
+						type = "codelldb",
+						name = "Adjuntar a proceso",
+						request = "attach",
+						pid = function()
+							return tonumber(vim.fn.input("PID del proceso: "))
+						end,
+					},
+				}
+			end
 		end,
 	},
 	{
@@ -96,7 +141,7 @@ return {
 		"jay-babu/mason-nvim-dap.nvim",
 		dependencies = { "mason=org/mason.nvim" },
 		opts = {
-			ensure_installed = { "netcoredbg" },
+			ensure_installed = { "netcoredbg", "codelldb" },
 			automatic_installation = true,
 		},
 	},

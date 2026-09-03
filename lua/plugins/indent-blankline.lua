@@ -8,6 +8,16 @@ return {
 		opts = {
 			indent = { char = "▏" },
 			scope = { enabled = true },
+			exclude = {
+				filetypes = {
+					"lazy",
+					"mason",
+					"TelescopePrompt",
+					"lspinfo",
+					"help",
+					"qf",
+				},
+			},
 		},
 		config = function(_, opts)
 			local hooks = require("ibl.hooks")

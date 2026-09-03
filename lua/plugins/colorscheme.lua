@@ -14,7 +14,9 @@ return {
 				which_key = true,
 				native_lsp = {
 					enabled = true,
+					virtual_text = { errors = { "italic" }, hints = { "italic" } },
 				},
+				lsp_semantic_tokens = true,
 				mason = true,
 				dap = true,
 				dap_ui = true,
