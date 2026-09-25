@@ -9,6 +9,12 @@ return {
 				update_in_insert = false,
 			})
 
+			vim.api.nvim_create_autocmd("CursorHold", {
+				callback = function()
+					vim.diagnostic.open_float(nil, { focus = false })
+				end,
+			})
+
 			vim.api.nvim_create_autocmd("LspAttach", {
 				callback = function(args)
 					local opts = { buffer = args.buf }
@@ -40,6 +46,7 @@ return {
 					end, "Anterior diagnóstico.")
 					map("n", "<leader>de", vim.diagnostic.open_float, "LSP: Mostrar diagnóstico en float.")
 					map("n", "<leader>q", vim.diagnostic.setloclist, "LSP: Diagnóstico a loclist.")
+					map("n", "<leader>K", vim.diagnostic.open_float, "LSP: Detalle Error.")
 				end,
 			})
 		end,
