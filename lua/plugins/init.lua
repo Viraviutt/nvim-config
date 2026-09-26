@@ -28,7 +28,7 @@ return {
 				virtual_text = true,
 				signs = true,
 				underline = true,
-				update_in_insert = false,
+				update_in_insert = true,
 			})
 
 			vim.lsp.config("clangd", {
@@ -38,24 +38,30 @@ return {
 					"--clang-tidy",
 					"--function-arg-placeholders=0",
 				},
-				init_options = {},
-				before_init = function(init_params)
-					local filename = vim.api.nvim_buf_get_name(0)
-					local flags
-					if
-						filename:match("%.c$")
-						and not filename:match("%.cpp$")
-						and not filename:match("%.cc$")
-						and not filename:match("%.cxx$")
-					then
-						flags = { "-std=c17" }
-					else
-						flags = { "-std=c++17" }
+				init_options = {
+					fallbackFlags = {},
+				},
+				on_attach = function(client, bufnr)
+					if vim.lsp.inlay_hint and vim.lsp.inlay_hint.enable then
+						pcall(vim.lsp.inlay_hint.enable, true, { bufnr = bufnr })
 					end
-					init_params.init_options = init_params.init_options or {}
-					init_params.init_options.fallbackFlags = flags
+					if vim.lsp.semantic_tokens then
+						vim.lsp.semantic_tokens.refresh_delay = 600
+					end
 				end,
 			})
+
+			-- Silencia stale semantic_tokens "Content modified" errors de clangd.
+			local _lsp_log_info = vim.lsp.log.info
+			vim.lsp.log.info = function(method, msg, ...)
+				if method == "semantic_tokens" and type(msg) == "table" then
+					local m = msg.message or msg[2] or ""
+					if type(m) == "string" and m:match("Content modified") then
+						return
+					end
+				end
+				return _lsp_log_info(method, msg, ...)
+			end
 		end,
 	},
 }
