@@ -15,6 +15,7 @@ opt.wrap = false
 opt.termguicolors = true
 opt.signcolumn = "yes"
 opt.updatetime = 250
+opt.mouse = "a"
 
 -- Search
 opt.ignorecase = true
